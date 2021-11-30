@@ -26,7 +26,7 @@ import java.net.URL
 //Pass Views to handle
 class ApiService: ViewModel() {
 
-
+    private var loadingInProgress:Boolean=false
     private val colorName = MutableLiveData<String>()
 
     fun getColorNameLive(): LiveData<String>{
@@ -40,7 +40,8 @@ class ApiService: ViewModel() {
     fun loadData(colorHex:String) {
 
         viewModelScope.launch {
-            getColor(colorHex)
+            if(!loadingInProgress)
+                getColor(colorHex)
 
         }
     }
@@ -48,7 +49,7 @@ class ApiService: ViewModel() {
     // Async method
     private suspend fun getColor(colorHex:String) {
         return withContext(Dispatchers.IO){
-
+            loadingInProgress=true;
 
 
             Fuel.get("https://www.thecolorapi.com/id?hex="+colorHex)
@@ -66,6 +67,7 @@ class ApiService: ViewModel() {
                         if(jsonObject.has("value")){
                             var color=jsonObject.get("value").toString()
                             colorName.postValue(color)
+                            loadingInProgress=false;
                         }
 
 
