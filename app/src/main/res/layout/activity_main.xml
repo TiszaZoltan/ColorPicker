@@ -10,8 +10,8 @@
         android:id="@+id/textView"
         android:layout_width="418dp"
         android:layout_height="55dp"
-        android:text="TextView"
         android:gravity="center"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -21,7 +21,8 @@
         android:layout_width="420dp"
         android:layout_height="67dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="Take a picture!"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -39,8 +40,9 @@
         android:id="@+id/button"
         android:layout_width="417dp"
         android:layout_height="83dp"
+        android:layout_marginBottom="-10dp"
         android:onClick="buttonHandler"
-        android:text="Button"
+        android:text="Camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

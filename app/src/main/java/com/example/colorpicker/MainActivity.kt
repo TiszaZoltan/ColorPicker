@@ -58,7 +58,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        textView2.text="Pick a point on the image"
+        textView.text=""
+        textView.rootView.setBackgroundColor(Color.WHITE)
 
+        textView.setTextColor(Color.BLACK)
+        textView2.setTextColor(Color.BLACK)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             imageView.setImageBitmap(imageBitmap)
@@ -99,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getColor(bitmap: Bitmap,x:Int,y:Int) {
 
-        if(y<=bitmap.getHeight()  && x<=bitmap.getWidth())
+        if(y>=bitmap.getHeight()  && x<=bitmap.getWidth())
         {
             val p: Int = bitmap.getPixel(x, y)
             textView.text="rgb("+ Color.red(p).toString()+","+ Color.green(p).toString()+","+ Color.blue(p).toString()+")"
