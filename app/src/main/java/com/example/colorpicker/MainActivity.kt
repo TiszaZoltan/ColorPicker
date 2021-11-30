@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageView:ImageView
     lateinit var textView: TextView
     lateinit var textView2: TextView
-    var scaledBitmap:Bitmap?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,28 +50,44 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
             val imageBitmap = data?.extras?.get("data") as Bitmap
             imageView.setImageBitmap(imageBitmap)
+
             val bm: BitmapDrawable = imageView.getDrawable() as BitmapDrawable
-            var bitmap=bm.bitmap as Bitmap
+
+
+
+            var scaledBitmap=bm.bitmap as Bitmap
             val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+
             var width = displayMetrics.widthPixels
             var height = displayMetrics.heightPixels
             scaledBitmap= Bitmap.createScaledBitmap(
-                bitmap,
+                scaledBitmap,
                 width,
                 height,
                 false
             )
-            imageView.getLayoutParams().height =bitmap.getHeight() ;
-            imageView.getLayoutParams().width = bitmap.getWidth();
 
 
+            imageView.getLayoutParams().height =scaledBitmap.getHeight() ;
+            imageView.getLayoutParams().width = scaledBitmap.getWidth();
 
+
+            imageView.setOnTouchListener(object: View.OnTouchListener{
+                override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                    val touchX = event!!.x.toInt()
+                    val touchY = event.y.toInt()
+
+
+                    return true
+                }
+            })
 
         }
     }
-
 
 
 
