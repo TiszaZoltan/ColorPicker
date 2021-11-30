@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getColor(bitmap: Bitmap,x:Int,y:Int) {
 
-        if(y>=bitmap.getHeight()  && x<=bitmap.getWidth())
+        if(y<bitmap.getHeight()  && x<bitmap.getWidth() && x>=0 && y>=0)
         {
             val p: Int = bitmap.getPixel(x, y)
             textView.text="rgb("+ Color.red(p).toString()+","+ Color.green(p).toString()+","+ Color.blue(p).toString()+")"
