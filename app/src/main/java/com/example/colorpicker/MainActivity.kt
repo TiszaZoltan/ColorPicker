@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import java.lang.String
 import java.util.Collections.max
 import kotlin.math.max
@@ -22,13 +23,20 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageView:ImageView
     lateinit var textView: TextView
     lateinit var textView2: TextView
-
+    lateinit var apiService: ApiService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         imageView=findViewById(R.id.imageView)
         textView=findViewById(R.id.textView)
         textView2=findViewById(R.id.textView2)
+        apiService= ApiService()
+
+        apiService.getColorNameLive().observe(this, Observer {
+            textView2.text=it
+
+
+        })
     }
 
     fun buttonHandler(view:View)
@@ -97,6 +105,14 @@ class MainActivity : AppCompatActivity() {
             textView.text="rgb("+ Color.red(p).toString()+","+ Color.green(p).toString()+","+ Color.blue(p).toString()+")"
             textView.rootView.setBackgroundColor(Color.rgb(Color.red(p), Color.green(p), Color.blue(p)))
             val hex = String.format("%02x%02x%02x", Color.red(p), Color.green(p), Color.blue(p))
+            val textColor: Int = Color.rgb(
+                255 - Color.red(p),
+                255 - Color.green(p),
+                255 - Color.blue(p)
+            )
+            textView.setTextColor(textColor)
+            textView2.setTextColor(textColor)
+            apiService.loadData(hex)
 
         }
 
