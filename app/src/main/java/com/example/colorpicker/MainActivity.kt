@@ -14,6 +14,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import java.lang.String
+import java.util.Collections.max
+import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1
@@ -50,27 +52,25 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
             val imageBitmap = data?.extras?.get("data") as Bitmap
             imageView.setImageBitmap(imageBitmap)
-
             val bm: BitmapDrawable = imageView.getDrawable() as BitmapDrawable
-
-
-
             var scaledBitmap=bm.bitmap as Bitmap
             val displayMetrics = DisplayMetrics()
             windowManager.defaultDisplay.getMetrics(displayMetrics)
-
             var width = displayMetrics.widthPixels
-            var height = displayMetrics.heightPixels
+            var in1=width/scaledBitmap.getWidth()
+
+
+
+
             scaledBitmap= Bitmap.createScaledBitmap(
                 scaledBitmap,
                 width,
-                height,
+                scaledBitmap.getHeight()*in1,
                 false
             )
-
+            imageView.setImageBitmap(scaledBitmap)
 
             imageView.getLayoutParams().height =scaledBitmap.getHeight() ;
             imageView.getLayoutParams().width = scaledBitmap.getWidth();
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                     val touchX = event!!.x.toInt()
                     val touchY = event.y.toInt()
-
+                    getColor(scaledBitmap,touchX,touchY)
 
                     return true
                 }
@@ -89,6 +89,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getColor(bitmap: Bitmap,x:Int,y:Int) {
+
+        if(y<=bitmap.getHeight()  && x<=bitmap.getWidth())
+        {
+            val p: Int = bitmap.getPixel(x, y)
+            textView.text="rgb("+ Color.red(p).toString()+","+ Color.green(p).toString()+","+ Color.blue(p).toString()+")"
+            textView.rootView.setBackgroundColor(Color.rgb(Color.red(p), Color.green(p), Color.blue(p)))
+            val hex = String.format("%02x%02x%02x", Color.red(p), Color.green(p), Color.blue(p))
+
+        }
+
+
+
+    }
 
 
 
